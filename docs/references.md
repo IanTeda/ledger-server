@@ -7,7 +7,11 @@ Sequelize CLI was a game changer, as the Sequelize docs are a little confusing/b
 * [Getting Started with Sequelize CLI](https://levelup.gitconnected.com/getting-started-with-sequelize-cli-c33c797f05c6)
 
 
+## Routes
 
+* [How To Set Up An Express API Backend Project With PostgreSQL](https://www.smashingmagazine.com/2020/04/express-api-backend-project-postgresql/)
+
+* [](https://www.smashingmagazine.com/2020/04/express-api-backend-project-postgresql/)
 
 * [Designing a better architecture for a Node.js API](https://dev.to/pacheco/designing-a-better-architecture-for-a-node-js-api-24d)
 * [Sequelize, the JavaScript ORM, in practice](https://www.redotheweb.com/2013/02/20/sequelize-the-javascript-orm-in-practice.html)

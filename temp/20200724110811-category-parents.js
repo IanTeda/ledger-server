@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('CategoryParent', [
+    await queryInterface.bulkInsert('CategoryParents', [
       {
         name: 'Utilities',
         description: 'Housing and property expenses on owner occupied property including rates, taxes, levies, body corporate and strata fees, repairs and maintenance, other household items and utilities',
@@ -112,6 +112,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('CategoryParent', null, {});
+    return queryInterface.bulkDelete('CategoryParents', null, {});
   }
 };

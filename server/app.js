@@ -1,12 +1,12 @@
-// server/app.js
 
-// Import Express Server
 import server from './config/server';
+import routes from './config/routes';
 
+// Fire the routes
+server.use('/api', routes)
 
-// TODO: Add HTTPS
+const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`app running on port ${PORT}`);
-});
+});1

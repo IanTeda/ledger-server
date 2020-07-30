@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: move to config folder
+
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');

@@ -15,14 +15,13 @@
 import { Router } from 'express';
 
 const router = Router();
-const controller = require("../controllers/payees");
+const payees = require("../controllers/payees.controller");
 
-router.post("/", controller.create);
-router.get("/", controller.findAll);
-router.get("/published", controller.findAllPublished);
-router.get("/:id", controller.findOne);
-router.put("/:id", controller.update);
-router.delete("/:id", controller.delete);
-router.delete("/", controller.deleteAll);
+router.post("/", payees.create);
+router.get("/", payees.findAll);
+router.delete("/", payees.deleteAll);
+router.get("/:id", payees.findOne);
+router.put("/:id", payees.update);
+router.delete("/:id", payees.delete);
 
 export default router;

@@ -23,6 +23,6 @@ router.get("/published", controller.findAllPublished);
 router.get("/:id", controller.findOne);
 router.put("/:id", controller.update);
 router.delete("/:id", controller.delete);
-router.delete("/", controller.deleteAll);
+// router.delete("/", controller.deleteAll);
 
 export default router;

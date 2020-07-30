@@ -2,6 +2,8 @@
 import server from './config/server';
 import routes from './config/routes';
 
+const logger = require( "./services/Logger" );
+
 // Fire the routes
 server.use('/api', routes)
 

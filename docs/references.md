@@ -13,6 +13,14 @@ Sequelize CLI was a game changer, as the Sequelize docs are a little confusing/b
 
 * [](https://www.smashingmagazine.com/2020/04/express-api-backend-project-postgresql/)
 
+
+## Services
+
+* [Bare Express Web Server](https://github.com/evanbechtol/bare-express)
+* [](https://www.codementor.io/@evanbechtol/node-service-oriented-architecture-12vjt9zs9i)
+* [](https://sodocumentation.net/node-js/topic/10785/route-controller-service-structure-for-expressjs)
+
+
 * [Designing a better architecture for a Node.js API](https://dev.to/pacheco/designing-a-better-architecture-for-a-node-js-api-24d)
 * [Sequelize, the JavaScript ORM, in practice](https://www.redotheweb.com/2013/02/20/sequelize-the-javascript-orm-in-practice.html)
 * [Node.js - Express Persistent Session Store with PostgreSQL + Sequelize](https://www.woolha.com/tutorials/node-js-express-persistent-session-store-with-postgresql-sequelize)

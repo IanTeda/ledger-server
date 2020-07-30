@@ -1,8 +1,9 @@
 import { Router } from 'express';
+
 const router = Router();
 
-router.use('/', require('../routes/index').default);
-router.use('/payees', require('../routes/payee').default);
+router.use('/', require('../routes/index.routes').default);
+router.use('/payees', require('../routes/payees.routes').default);
 
 export default router;
 

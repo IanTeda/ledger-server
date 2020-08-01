@@ -1,8 +1,11 @@
 
-import server from './config/server';
-import routes from './config/routes';
+import server from './config/server.config';
+import routes from './config/routes.config';
+import logger from './util/logger.util';
+import morgan from 'morgan';
 
-const logger = require( "./services/Logger" );
+
+server.use(morgan('combined', { stream: logger.stream }));
 
 // Fire the routes
 server.use('/api', routes)
@@ -10,5 +13,5 @@ server.use('/api', routes)
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
-  console.log(`app running on port ${PORT}`);
+  logger.info(`app running on port ${PORT}`);
 });1

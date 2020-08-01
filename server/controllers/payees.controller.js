@@ -1,6 +1,6 @@
 import { Payee } from '../models';
 const payeeService = require('../services/payee.service');
-const objectService = require('../services/object.service');
+const objectUtil = require('../util/object.util');
 
 /**
  * CREATE PAYEE
@@ -73,7 +73,7 @@ export async function findAll(req, res) {
       throw new Error('Unable to find payees in the database');
     }
 
-    if (objectService.isNotEmpty(payees)){
+    if (objectUtil.isNotEmpty(payees)){
       return res.status(200).json({
         status: 200,
         data: payees,

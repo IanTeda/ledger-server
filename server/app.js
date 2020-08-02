@@ -2,13 +2,9 @@
 import server from './config/server.config';
 import routes from './config/routes.config';
 import logger from './util/logger.util';
-import morgan from 'morgan';
-
-
-server.use(morgan('combined', { stream: logger.stream }));
 
 // Fire the routes
-server.use('/api', routes)
+server.use('/api', routes);
 
 const PORT = process.env.PORT || 3000;
 

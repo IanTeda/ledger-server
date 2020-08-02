@@ -66,13 +66,15 @@ export async function findAll(offset, limit, where) {
  * 
  * @param {STRING} where 
  */
-export async function findAndCountAll(where) {
+export async function findAndCountAll(where, offset, limit) {
 
   try {
-    let total = await Payee.findAndCountAll({
-      where: where
+    let findAndCountAll = await Payee.findAndCountAll({
+      where: where,
+      offset: offset,
+      limit: limit
     })
-    return total;
+    return findAndCountAll;
 
   } catch (error) {
       return error;
@@ -125,9 +127,15 @@ export async function update(payeeId, payee) {
     }
 
     // Update payee in database
-    let [ updated ] = await Payee.update(payee, {
-      where: { id: payeeId }
-    });
+    let [ updated ] = await Payee.update(
+      {
+        name: payee.name,
+        description: payee.description,
+        address: payee.address, 
+      },{
+        where: { id: payeeId }
+      }
+    );
 
     if (updated) {
       // If updated find the updated payee and return row;

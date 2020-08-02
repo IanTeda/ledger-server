@@ -1,6 +1,7 @@
 import { Payee } from '../models';
 const payeeService = require('../services/payee.service');
 const objectUtil = require('../util/object.util');
+const hateoasUtil = require("../util/hateoas.util");
 
 /**
  * CREATE PAYEE
@@ -33,8 +34,8 @@ export async function create(req, res) {
     if(payee){
       return res.status(201).json({
         status: 201,
-        data: payee,
-        message: 'Successfully Created Payee'
+        message: 'Successfully Created Payee',
+        data: payee
       });
     }
 
@@ -67,17 +68,26 @@ export async function findAll(req, res) {
     let where = req.query.filter
 
     // Find all Payees with service
-    let payees = await payeeService.findAll(offset, limit, where);
+    let payeesAndCountAll = await payeeService.findAndCountAll(where, offset, limit);
+    let payees = payeesAndCountAll.rows;
+    let total = payeesAndCountAll.count;
 
-    if(payees.name === "SequelizeConnectionError"){
+    // Check for Sequelize errors
+    if(payees.name === "SequelizeConnectionError") {
       throw new Error('Unable to find payees in the database');
+    } else if(payees.name === "SequelizeDatabaseError") {
+      throw new Error('Database threw an error');
     }
+
+    // Get links to add to response
+    let links = hateoasUtil.pagesLinks(req, total);
 
     if (objectUtil.isNotEmpty(payees)){
       return res.status(200).json({
         status: 200,
+        message: 'Successfully Payee Retrieval',
         data: payees,
-        message: 'Successfully Payee Retrieval'
+        links: links
       })
     }
 
@@ -125,12 +135,15 @@ export async function findOne(req, res) {
   try {
     let id = req.params.id;
     let payee = await payeeService.findOne(id);
+    let links = hateoasUtil.selfLinks(req);
 
     if(payee){
       return res.status(200).json({
         status: 200,
+        message: 'Successfully retrieved payee with ID=' + id,
         data: payee,
-        message: 'Successfully retrieved payee with ID=' + id
+        links: links
+        
       })
     }
 
@@ -160,11 +173,13 @@ export async function update(req, res) {
     let payeeId = req.params.id;
 
     let updatedPayee = await payeeService.update(payeeId, payee);
+    let links = hateoasUtil.selfLinks(req);
 
     return res.status(200).json({
       status: 201,
+      message: 'Successfully Updated Payee',
       data: updatedPayee,
-      message: 'Successfully Updated Payee'
+      links: links
     });
 
   } catch (error) {
@@ -191,11 +206,13 @@ async function _delete(req, res){
   try {
     let id = req.params.id;
     let deleted = await payeeService.delete(id);
+    let links = hateoasUtil.deleteLinks(req);
 
     if(deleted){
       return res.status(200).json({
         status: 200,
-        message: 'Successfully deleted payee with ID=' + id
+        message: 'Successfully deleted payee with ID=' + id,
+        links: links
       })
     }
 

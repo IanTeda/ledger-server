@@ -21,4 +21,5 @@ server.use(bodyParser.urlencoded({
 server.use(upload.array());
 server.use(express.static('public'));
 
+// Export server config
 export default server;

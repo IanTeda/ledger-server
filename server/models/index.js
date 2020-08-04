@@ -5,7 +5,8 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/database.config')[env]
+const config = require(__dirname + '/../config/database.config.json')[env];
+import logger from '../util/logger.util';
 const db = {};
 
 let sequelize;
@@ -26,7 +27,7 @@ if (config.environment === 'production') {
         ssl: true,
         native: true
       },
-      logging: true
+      logging: logger.debug
     }
   );
 } else {

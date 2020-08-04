@@ -2,16 +2,29 @@
   "name": "ledger-server",
   "version": "1.0.0",
   "description": "API server for personal ledger",
+  "author": {
+    "name": "Ian Teda",
+    "email": "ian@teda.id.au"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.13.0"
+  },
   "main": "app.js",
   "scripts": {
-    "dev:db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "dev:db:migrate": "npx sequelize-cli db:migrate",
+    "db:drop": "npx sequelize-cli db:drop",
+    "db:create": "npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:clean": "npm run db:drop && npm run db:create && npm run db:migrate",
+    "db:reset": "npm run db:clean && npm run db:seed",
     "dev:start": "clear; nodemon --exec babel-node server/app.js",
     "start": "babel-node server/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test mocha",
+    "test:clean": "NODE_ENV=test npm run db:clean",
+    "test:coverage": "NODE_ENV=test nyc mocha",
+    "test:report": "nyc report --reporter=text-summary"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "app-root-path": "^3.0.0",
     "bcrypt": "^5.0.0",
@@ -30,15 +43,17 @@
     "winston-daily-rotate-file": "^4.5.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
+    "@babel/polyfill": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
-    "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "faker": "^4.1.0",
     "mocha": "^8.1.0",
     "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
     "sequelize-cli": "^6.2.0",
     "webpack": "^4.43.0"
   }

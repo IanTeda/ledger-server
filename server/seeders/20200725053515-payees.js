@@ -5,7 +5,7 @@ const payees = [...Array(100)].map((payee) => (
   {
     name: faker.company.companyName(),
     description: faker.company.catchPhrase(),
-    address: faker.address.streetAddress() + ', ' + faker.address.state + ', ' + faker.address.country(),
+    address: faker.address.streetAddress() + ', ' + faker.address.state() + ', ' + faker.address.country(),
     createdAt: new Date(),
     updatedAt: new Date()
   }

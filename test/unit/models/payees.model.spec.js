@@ -1,7 +1,8 @@
-import chai, { assert } from 'chai';
 import truncate from '../../truncate';
 import payeeFactory from '../../factories/payees.factory';
 import { Payee } from '../../../server/models';
+
+const assert = require('chai').assert
 
 
 describe('Payee Model', () => {

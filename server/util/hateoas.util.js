@@ -179,7 +179,66 @@ export function deleteLinks(req){
   return links;
 }
 
+//TODO: refactor so we are not repeating self link function
+export function newEntryLink(req, entry){
 
+  let links = [];
+  let id = entry.id;;
+  let urlSelf = req.protocol + '://' + req.get('host') + req.originalUrl + '/' + id;
+
+  let urlEndPoint = endPointLink(urlSelf);
+
+  let getLink = {
+    "rel": "self",
+    "href": urlSelf,
+    "action": "get",
+    "method": "GET",
+    "types":[
+      "text/xml",
+      "application/json"
+    ]
+  }
+
+  let updateLink = {
+    "rel": "self",
+    "href": urlSelf,
+    "action": "update",
+    "method": "PUT",
+    "types":[
+      "application/x-www-form-urlencoded"
+    ]
+  }
+
+  let deleteLink = {
+    "rel": "self",
+    "href": urlSelf,
+    "action": "delete",
+    "method": "DELETE",
+    "types":[
+      "text/xml",
+      "application/json"
+    ]
+  }
+
+  let endPointLinks = {
+    "rel": "end point",
+    "href": urlEndPoint,
+    "action": "get",
+    "method": "GET",
+    "types":[
+      "text/xml",
+      "application/json"
+    ]
+  }
+
+  links.push(getLink);
+  links.push(updateLink);
+  links.push(deleteLink);
+  links.push(endPointLinks);
+
+  return links;
+
+}
 
 
 // HATEOAS (Hypermedia as the Engine of Application State) 

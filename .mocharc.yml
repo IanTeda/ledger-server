@@ -1,11 +1,14 @@
 color: true
 exit: true # could be expressed as "no-exit: true"
 recursive: true
-require: 
-  - '@babel/register'
-  - '@babel/polyfill'
-  - 'test/setup.js'
+require:
+  - "@babel/register"
+  - "@babel/polyfill"
+  # - "./test/setup.js"
+  # - "chai/register-assert"
+  # - "chai/register-expect"
+  # - "chai/register-should"
 slow: 75
-spec: 'test/**/*.spec.js' # the positional arguments!
+spec: "test/**/*.spec.js" # the positional arguments!
 timeout: false # same as "no-timeout: true" or "timeout: 0"
 ui: bdd

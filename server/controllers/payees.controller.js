@@ -29,13 +29,15 @@ export async function create(req, res) {
     };
 
     // Create payee
-    let payee = await payeeService.create(newPayee);
+    let createdPayee = await payeeService.create(newPayee);
+    let links = hateoasUtil.newEntryLink(req, createdPayee);
 
-    if(payee){
+    if(createdPayee){
       return res.status(201).json({
         status: 201,
-        message: 'Successfully Created Payee',
-        data: payee
+        message: 'Successfully created payee',
+        data: createdPayee,
+        links: links
       });
     }
 
@@ -85,7 +87,7 @@ export async function findAll(req, res) {
     if (objectUtil.isNotEmpty(payees)){
       return res.status(200).json({
         status: 200,
-        message: 'Successfully Payee Retrieval',
+        message: 'Successfully retrieved payees',
         data: payees,
         links: links
       })
@@ -130,7 +132,6 @@ export async function findAndCountAll(req, res){
  * @param {OBJECT} res 
  */
 export async function findOne(req, res) {
-  //  res.send('NOT IMPLEMENTED: Payee find by id');
 
   try {
     let id = req.params.id;
@@ -138,21 +139,34 @@ export async function findOne(req, res) {
     let links = hateoasUtil.selfLinks(req);
 
     if(payee){
-      return res.status(200).json({
-        status: 200,
-        message: 'Successfully retrieved payee with ID=' + id,
-        data: payee,
-        links: links
-        
-      })
+
+      // Check for Sequelize errors
+      if(payee.name === "SequelizeConnectionError") {
+        throw new Error('Error connecting to the database');
+
+      // If number is to big you get an out of range error, else it returns null
+      } else if(payee.name === "SequelizeDatabaseError") {
+        throw new Error(`Payee id=${id} is out of range or does not exists`)
+
+      } else {
+        return res.status(200).json({
+          status: 200,
+          message: 'Successfully retrieved payee with id=' + id,
+          data: payee,
+          links: links
+          
+        })
+      }
+
+    // If number is to big you get an out of range error, else it returns null
+    } else {
+      throw new Error(`Payee id=${id} is out of range or does not exists`);
     }
-
-    throw new Error('Post with ID=' + id + ' does not exists')
-
   } catch (error) {
+    // TODO: add error links to response
     return res.status(404).json({
       status: 404,
-      message: error.message || ' Error while retrieving post with ID=' + payeeId
+      message: error.message || 'Error while retrieving post with id=' + payeeId
     })
   }
 }
@@ -169,15 +183,21 @@ export async function update(req, res) {
 
   try {
 
-    let payee = req.body;
-    let payeeId = req.params.id;
+    let id = req.params.id;
 
-    let updatedPayee = await payeeService.update(payeeId, payee);
+    // Create new payee object from request body
+    let payee = {
+      name: req.body.name,
+      description: req.body.description,
+      address:req.body.address,
+    };
+
+    let updatedPayee = await payeeService.update(id, payee);
     let links = hateoasUtil.selfLinks(req);
 
-    return res.status(200).json({
+    return res.status(201).json({
       status: 201,
-      message: 'Successfully Updated Payee',
+      message: 'Successfully updated payee with id=' + id,
       data: updatedPayee,
       links: links
     });
@@ -211,17 +231,17 @@ async function _delete(req, res){
     if(deleted){
       return res.status(200).json({
         status: 200,
-        message: 'Successfully deleted payee with ID=' + id,
+        message: 'Successfully deleted payee with id=' + id,
         links: links
       })
     }
 
-    throw new Error('Payee with ID=' + id + ' does not exists and could not be deleted')
+    throw new Error('Payee with id=' + id + ' does not exists and could not be deleted')
 
   } catch (error) {
     return res.status(400).json({
       status: 400,
-      message: error.message || ' Error while deleting post with ID=' + payeeId
+      message: error.message || 'Error while deleting post with id=' + payeeId
     })
   }
 

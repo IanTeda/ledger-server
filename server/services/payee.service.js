@@ -19,14 +19,14 @@ export async function create(payee) {
     }
 
     // Creat variable so we can add to it if needed down the track
-    let newPayee = await Payee.create({
+    let createdPayee = await Payee.create({
       name: payee.name,
       description: payee.description,
       address: payee.address
     });
 
     // Return new payee
-    return newPayee;
+    return createdPayee;
 
   } catch (error) {
     return error;
@@ -93,12 +93,14 @@ export async function findOne(payeeId) {
   try {
 
     if (!payeeId) {
-      throw new Error('Error, no Payee ID specified...')
+      // TODO: write tests for these
+      throw new Error('Error, no Payee id specified...')
     }
 
     let payee = await Payee.findOne({
       where: { id: payeeId }
     });
+    
     return payee;
 
   } catch (error) {
@@ -119,7 +121,7 @@ export async function update(payeeId, payee) {
   try {
 
     if (!payeeId) {
-      throw new Error('Error, no Payee ID specified...')
+      throw new Error('Error, no Payee id specified...')
     }
 
     if (!payee) {
@@ -127,7 +129,7 @@ export async function update(payeeId, payee) {
     }
 
     // Update payee in database
-    let [ updated ] = await Payee.update(
+    let updated = await Payee.update(
       {
         name: payee.name,
         description: payee.description,
@@ -161,7 +163,7 @@ export async function update(payeeId, payee) {
 async function _delete(payeeId) {
 
   if (!payeeId) {
-    throw new Error('Error, no Payee ID specified..')
+    throw new Error('Error, no Payee id specified..')
   }
 
   try {

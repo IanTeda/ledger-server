@@ -7,7 +7,10 @@ import logger from '../util/logger.util';
 const upload = multer();
 const server = express();
 
-server.use(morgan('combined', { stream: logger.stream }));
+// Only log http requests if not in test environment
+if (process.env.NODE_ENV !== 'test') {
+  server.use(morgan('combined', { stream: logger.stream }));
+}
 
 // For parsing application/json
 server.use(bodyParser.json());

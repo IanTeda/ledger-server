@@ -17,8 +17,9 @@ export async function create(req, res) {
   try {
 
     // Validate request body
+    // TODO: validation needs more work
     if (!req.body.name) {
-      throw new Error('Request body can not be empty!')
+      throw new Error('Bad Request - Your request did not contain payee data')
     }
 
     // Create new payee object from request body
@@ -35,13 +36,13 @@ export async function create(req, res) {
     if(createdPayee){
       return res.status(201).json({
         status: 201,
-        message: 'Successfully created payee',
+        message: 'Success - Created payee in database',
         data: createdPayee,
         links: links
       });
     }
 
-    throw new Error('Error creating payee')
+    throw new Error('Error - Could not create payee')
 
   } catch (error) {
     return res.status(400).json({
@@ -76,9 +77,9 @@ export async function findAll(req, res) {
 
     // Check for Sequelize errors
     if(payees.name === "SequelizeConnectionError") {
-      throw new Error('Unable to find payees in the database');
+      throw new Error('Error - Unable to connect to database');
     } else if(payees.name === "SequelizeDatabaseError") {
-      throw new Error('Database threw an error');
+      throw new Error('Error - Database threw an error');
     }
 
     // Get links to add to response
@@ -87,13 +88,13 @@ export async function findAll(req, res) {
     if (objectUtil.isNotEmpty(payees)){
       return res.status(200).json({
         status: 200,
-        message: 'Successfully retrieved payees',
+        message: 'Success - Retrieved payees',
         data: payees,
         links: links
       })
     }
 
-    throw new Error('Unable to find payees in the database');
+    throw new Error('Error: Unable to find payees in the database');
 
   } catch (error) {
     return res.status(400).json({
@@ -117,9 +118,17 @@ export async function findAndCountAll(req, res){
     let where = req.query.filter;
 
     let total = await payeeService.findAndCountAll(where);
-    return res.status(200).json({status: 200, data: total, message: 'Successfully Payee Retrieval'})
+    return res.status(200).json({
+      status: 200, 
+      data: total, 
+      message: 'Successfully Payee Retrieval'
+    })
+
   } catch (error) {
-    return res.status(400).json({status: 400, message: error.message})
+    return res.status(400).json({
+      status: 400, 
+      message: error.message
+    })
   }
 }
 
@@ -142,16 +151,16 @@ export async function findOne(req, res) {
 
       // Check for Sequelize errors
       if(payee.name === "SequelizeConnectionError") {
-        throw new Error('Error connecting to the database');
+        throw new Error('Error - Unable to connect to the database');
 
       // If number is to big you get an out of range error, else it returns null
       } else if(payee.name === "SequelizeDatabaseError") {
-        throw new Error(`Payee id=${id} is out of range or does not exists`)
+        throw new Error(`Bad Request - Payee id=${id} is out of range or does not exists`)
 
       } else {
         return res.status(200).json({
           status: 200,
-          message: 'Successfully retrieved payee with id=' + id,
+          message: `Success - Retrieved payee with id=${id}`,
           data: payee,
           links: links
           
@@ -160,7 +169,7 @@ export async function findOne(req, res) {
 
     // If number is to big you get an out of range error, else it returns null
     } else {
-      throw new Error(`Payee id=${id} is out of range or does not exists`);
+      throw new Error(`Bad Request - Payee id=${id} is out of range or does not exists`);
     }
   } catch (error) {
     // TODO: add error links to response
@@ -197,7 +206,7 @@ export async function update(req, res) {
 
     return res.status(201).json({
       status: 201,
-      message: 'Successfully updated payee with id=' + id,
+      message: `Success - Updated payee with id=${id}`,
       data: updatedPayee,
       links: links
     });
@@ -224,6 +233,11 @@ export async function update(req, res) {
 async function _delete(req, res){
 
   try {
+
+    if(!req.params.id){
+      throw new Error('Bad Request - No payee id provided')
+    }
+
     let id = req.params.id;
     let deleted = await payeeService.delete(id);
     let links = hateoasUtil.deleteLinks(req);
@@ -231,12 +245,12 @@ async function _delete(req, res){
     if(deleted){
       return res.status(200).json({
         status: 200,
-        message: 'Successfully deleted payee with id=' + id,
+        message: `Success - Deleted payee with id=${id}`,
         links: links
       })
     }
 
-    throw new Error('Payee with id=' + id + ' does not exists and could not be deleted')
+    throw new Error(`Bad Request - Payee with id=${id} does not exists and could not be deleted`)
 
   } catch (error) {
     return res.status(400).json({
@@ -265,7 +279,7 @@ export async function deleteAll(req, res) {
     if(deleted){
       return res.status(200).json({
         status: 200,
-        message: 'Successfully deleted all payees in the database'
+        message: 'Success - Deleted all payees in the database'
       });
     }
 

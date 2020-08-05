@@ -19,7 +19,7 @@ const payees = require("../controllers/payees.controller");
 
 router.post("/", payees.create);
 router.get("/", payees.findAll);
-router.delete("/", payees.deleteAll);
+router.delete("/", payees.deleteAll); // Lets not enable delete all for now
 router.get("/:id", payees.findOne);
 router.put("/:id", payees.update);
 router.delete("/:id", payees.delete);

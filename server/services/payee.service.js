@@ -15,7 +15,8 @@ export async function create(payee) {
 
     // Validate payee exists
     if (!payee) {
-      throw new Error('Error, no Payee specified...')
+      // TODO: Needs a better message based on function variable
+      throw new Error('Bad Request - Your request did not contain payee data')
     }
 
     // Creat variable so we can add to it if needed down the track
@@ -93,8 +94,8 @@ export async function findOne(payeeId) {
   try {
 
     if (!payeeId) {
-      // TODO: write tests for these
-      throw new Error('Error, no Payee id specified...')
+      // This want happen because it gets all if there is no id param
+      throw new Error('Bad Request - Your request did not specify a payee <id>')
     }
 
     let payee = await Payee.findOne({
@@ -121,11 +122,11 @@ export async function update(payeeId, payee) {
   try {
 
     if (!payeeId) {
-      throw new Error('Error, no Payee id specified...')
+      throw new Error('Bad Request - Your request did not specify a payee <id>')
     }
 
     if (!payee) {
-      throw new Error('Error, no Payee specified...')
+      throw new Error('Bad Request - Your request did not contain payee data')
     }
 
     // Update payee in database
@@ -163,7 +164,7 @@ export async function update(payeeId, payee) {
 async function _delete(payeeId) {
 
   if (!payeeId) {
-    throw new Error('Error, no Payee id specified..')
+    throw new Error('Bad Request - Your request did not specify a payee <id>')
   }
 
   try {

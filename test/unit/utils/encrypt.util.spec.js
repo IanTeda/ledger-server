@@ -1,6 +1,6 @@
-import chai from 'chai';
-const expect = require('chai').expect
-import {generateSalt, encryptPassword} from '../../../server/util/encrypt.util'
+// const expect = require('chai').expect
+import { expect } from 'chai';
+import {generateSalt, encryptPassword} from 'server/util/encrypt.util'
 
 describe('Encrypt Utility', () => {
  

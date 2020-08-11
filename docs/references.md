@@ -5,6 +5,7 @@ Sequelize CLI was a game changer, as the Sequelize docs are a little confusing/b
 
 * [Sequelize CLI](https://github.com/sequelize/cli)
 * [Getting Started with Sequelize CLI](https://levelup.gitconnected.com/getting-started-with-sequelize-cli-c33c797f05c6)
+* [The Comprehensive Sequelize Cheatsheet](https://dev.to/projectescape/the-comprehensive-sequelize-cheatsheet-3m1m)
 
 
 ## Routes

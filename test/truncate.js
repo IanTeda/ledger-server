@@ -1,5 +1,4 @@
-// import map from 'lodash/map';
-import models from '../server/models';
+import models from 'server/models';
 
 const truncateTable = (modelName) =>
   models[modelName].destroy({

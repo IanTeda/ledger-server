@@ -1,10 +1,12 @@
-import truncate from '../../truncate';
-import payeeFactory from '../../factories/payees.factory';
-import { Payee } from '../../../server/models';
+import truncate from 'test/truncate';
+import payeeFactory from 'test/factories/payees.factory';
+import { Payee } from 'server/models';
+import { assert } from 'chai';
 
-const assert = require('chai').assert
-
-
+/**
+ * Test Payee Model
+ * ================
+ */
 describe('Payee Model', () => {
   let payee;
 

@@ -1,6 +1,6 @@
-import truncate from '../../truncate';
-import payeeFactory from '../../factories/payees.factory';
-import server from '../../../server/app';
+import truncate from 'test/truncate';
+import payeeFactory from 'test/factories/payees.factory';
+import server from 'server/app';
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 

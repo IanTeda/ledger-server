@@ -1,15 +1,17 @@
-import { randomBytes, createHash } from 'crypto';
+const crypto = require('crypto');
 
-export function generateSalt() {
-  let salt = randomBytes(16).toString('base64');
+function generateSalt() {
+  let salt = crypto.randomBytes(16).toString('base64');
   return salt;
 }
 
-export function encryptPassword(plainText, salt) {
-  let encryptPassword = createHash('RSA-SHA256')
+function encryptPassword(plainText, salt) {
+  let encryptPassword = crypto.createHash('RSA-SHA256')
     .update(plainText)
     .update(salt)
     .digest('hex')
   return encryptPassword;
 }
 
+module.exports.generateSalt = generateSalt;
+module.exports.encryptPassword = encryptPassword;

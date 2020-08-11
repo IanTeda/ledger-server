@@ -1,7 +1,7 @@
 const faker = require('faker');
 
 // Create array of company faker data
-const payees = [...Array(100)].map((payee) => (
+let payees = [...Array(100)].map((payee) => (
   {
     name: faker.company.companyName(),
     description: faker.company.catchPhrase(),
@@ -12,20 +12,10 @@ const payees = [...Array(100)].map((payee) => (
 ));
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Payees', payees, {});
+  up: async (queryInterface, Sequelize) => {
+    return await queryInterface.bulkInsert('Payees', payees, {});
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Payees', null, {});
+  down: async (queryInterface, Sequelize) => {
+    return await queryInterface.bulkDelete('Payees', null, {});
   }
 };
-
-// module.exports = {
-//   up: async (queryInterface, Sequelize) => {
-//     await queryInterface.bulkDelete('Payees', payees, {});
-//   },
-
-//   down: async (queryInterface, Sequelize) => {
-//     await queryInterface.bulkDelete('Payees', null, {});
-//   }
-// };

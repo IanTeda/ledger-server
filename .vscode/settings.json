@@ -1,3 +1,35 @@
 {
-  "sqltools.connections": []
+  "sqltools.connections": [
+
+    {
+      "database": "ledger_dev",
+      "driver": "PostgreSQL",
+      "group": "Ledger",
+      "name": "Ledger Dev",
+      "password": "4T3WY3XPTANDhQ",
+      "pgOptions": {
+        "ssl": false
+      },
+      "port": 54321,
+      "previewLimit": 50,
+      "server": "10.1.1.100",
+      "username": "root"
+    },
+    {
+      "database": "ledger_test",
+      "driver": "PostgreSQL",
+      "group": "Ledger",
+      "name": "Ledger Test",
+      "password": "4T3WY3XPTANDhQ",
+      "pgOptions": {
+        "ssl": false
+      },
+      "port": 54321,
+      "previewLimit": 50,
+      "server": "10.1.1.100",
+      "username": "root"
+    }
+  ],
+  "sqltools.autoOpenSessionFiles": false,
+  "sqltools.defaultExportType": "json"
 }

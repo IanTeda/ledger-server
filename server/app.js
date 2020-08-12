@@ -12,18 +12,14 @@ const PORT = process.env.PORT || 3000;
 
 // Start our server
 server.listen(PORT, () => {
-  logger.info(`app running on port ${PORT}`);
+  logger.info(`SERVER - Running on port ${PORT}`);
 });
 
-// Check database is up
+// Get database connection up
 sequelize
   .authenticate()
-  .then(() => {
-    logger.info("Database connection has been established successfully.");
-  })
-  .catch((err) => {
-    logger.error("Error - Unable to connect to the database:", err);
-  });
+  .then(() => logger.info("DATABASE - Connection has been established successfully."))
+  .catch((err) => logger.error("DATABASE ERROR - Unable to connect to the database:", err));
 
 // Export the server for testing purposes
 export default server;

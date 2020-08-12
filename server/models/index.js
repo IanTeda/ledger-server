@@ -5,36 +5,29 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/database.config.json')[env];
+const config = require(__dirname + '/../config/database.config.js')[env];
 import logger from '../util/logger.util';
 const db = {};
 
 let sequelize;
 
-// Load database config
-if (config.environment === 'production') {
-  sequelize = new Sequelize(
-    process.env[config.use_env_variable], config
-  );
-  sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS, {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      dialect: 'postgres',
-      dialectOption: {
-        ssl: true,
-        native: true
-      },
-      logging: logger.debug
-    }
-  );
+// Add application logger to Sequelize logging
+// https://github.com/sequelize/sequelize/issues/7821#issuecomment-311700339
+if (process.env.NODE_ENV === 'production') {
+  config.logging = (msg) => logger.debug(msg)
+} else if (process.env.NODE_ENV === 'development') {
+  config.logging = (msg) => logger.info(msg)
 } else {
-  sequelize = new Sequelize(
-    config.database, config.username, config.password, config
-  );
-};
+  config.logging = false;
+}
+
+// Load database config
+sequelize = new Sequelize(
+  config.database, 
+  config.username, 
+  config.password, 
+  config
+);
 
 // Parse model files
 fs
